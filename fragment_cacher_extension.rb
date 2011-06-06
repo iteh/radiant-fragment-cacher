@@ -4,9 +4,13 @@ class FragmentCacherExtension < Radiant::Extension
   url "http://github.com/mokisystems/radiant-fragment-cacher/"
 
   FRAGMENT_CACHE_DIR = RAILS_ROOT + "/tmp/cache/fragment_cache"
+
+  def self.ensure_cache_dir
+    FileUtils.mkdir_p(FRAGMENT_CACHE_DIR) unless File.exist?(FRAGMENT_CACHE_DIR)
+  end
   
   def activate
-    FileUtils.mkdir_p(FRAGMENT_CACHE_DIR) unless File.exist?(FRAGMENT_CACHE_DIR)
+
     Page.send :include, FragmentCacher
 
     Page.class_eval do

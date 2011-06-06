@@ -7,6 +7,7 @@ module ClearFragmentCache
   end
 
   def clear_fragment_cache
+    FragmentCacherExtension.ensure_cache_dir
     FileUtils.rm(Dir.glob(File.join(FragmentCacherExtension::FRAGMENT_CACHE_DIR, "_fragment_*")))
   end
 

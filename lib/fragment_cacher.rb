@@ -4,6 +4,7 @@ module FragmentCacher
   class TagError < StandardError; end
 
   def read_metadata(path)
+    FragmentCacherExtension.ensure_cache_dir
     name = "#{path}.yml"
     if File.exists?(name) and not File.directory?(name)
       content = File.open(name, "rb") { |f| f.read }
