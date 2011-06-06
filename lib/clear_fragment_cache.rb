@@ -7,7 +7,7 @@ module ClearFragmentCache
   end
 
   def clear_fragment_cache
-    FileUtils.rm(Dir.glob(RAILS_ROOT + "/tmp/fragment_cache/_fragment_*"))
+    FileUtils.rm(Dir.glob(File.join(FragmentCacherExtension::FRAGMENT_CACHE_DIR, "_fragment_*")))
   end
 
   def self.included(base)

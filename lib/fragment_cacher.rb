@@ -31,7 +31,10 @@ module FragmentCacher
     # Default time to 30 minutes
     attr[:time] = attr[:time].to_i
     attr[:time] = 30 if attr[:time].blank? || attr[:time] <= 0
-    cache_file = File.join(RAILS_ROOT + "/tmp/fragment_cache", "_fragment_#{attr[:name].tr('.:/\ ','_')}")
+    site_id = self.try(:current_site).try(:id) || "1"
+    site_lang = (Globalize2Extension && Globalize2Extension.content_locale) || "de"
+
+    cache_file = File.join(FragmentCacherExtension::FRAGMENT_CACHE_DIR, "_fragment_#{site_id}_#{site_lang}_#{attr[:name].tr('.:/\ ','_')}")
     if read_metadata(cache_file)
       # Return the cached version
       return File.open("#{cache_file}.data", "rb") {|f| f.read}

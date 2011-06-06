@@ -2,10 +2,11 @@ class FragmentCacherExtension < Radiant::Extension
   version "0.2"
   description "Allows fragments to be cached outside of the normal Radiant cache."
   url "http://github.com/mokisystems/radiant-fragment-cacher/"
+
+  FRAGMENT_CACHE_DIR = RAILS_ROOT + "/tmp/cache/fragment_cache"
   
   def activate
-    cache_dir = RAILS_ROOT + "/tmp/fragment_cache"
-    Dir.mkdir(cache_dir) unless File.exist?(cache_dir)
+    FileUtils.mkdir_p(FRAGMENT_CACHE_DIR) unless File.exist?(FRAGMENT_CACHE_DIR)
     Page.send :include, FragmentCacher
 
     Page.class_eval do
