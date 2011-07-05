@@ -28,12 +28,12 @@ module FragmentCacher
   }
   tag "cache" do |tag|
     attr = tag.attr.symbolize_keys
-    raise TagError.new("`name' paramater must be included") if attr[:name].blank?
+    raise TagError.new("`name' parameter must be included") if attr[:name].blank?
     # Default time to 30 minutes
     attr[:time] = attr[:time].to_i
     attr[:time] = 30 if attr[:time].blank? || attr[:time] <= 0
-    site_id = self.try(:current_site).try(:id) || "1"
-    site_lang = (Globalize2Extension && Globalize2Extension.content_locale) || "de"
+    site_id = (defined? VhostExtension) ? current_site.id : "1"
+    site_lang = (defined? Globalize2Extension) ? Globalize2Extension.content_locale : "de"
 
     cache_file = File.join(FragmentCacherExtension::FRAGMENT_CACHE_DIR, "_fragment_#{site_id}_#{site_lang}_#{attr[:name].tr('.:/\ ','_')}")
     if read_metadata(cache_file)
